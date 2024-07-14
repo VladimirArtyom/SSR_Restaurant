@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            $table->string('avatar')->default('/uploads/avatar_default.png');
             $table->string('queue')->index();
             $table->longText('payload');
+            $table->enum('role', ['user', 'admin']);
             $table->unsignedTinyInteger('attempts');
             $table->unsignedInteger('reserved_at')->nullable();
             $table->unsignedInteger('available_at');
