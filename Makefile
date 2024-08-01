@@ -32,7 +32,7 @@ run_mysql_init:
 		--env MYSQL_DATABASE=$(MYSQL_DATABASE) \
 		--network $(PROJECT_NETWORK) \
 		--volume ${PWD}/$(VOLUME_NAME):/var/lib/mysql \
-		mysql:latest
+		mysql:lts-oracle
 
 run_laravel:
 	docker run -d --name $(PROJECT_NAME)_laravel \
@@ -44,8 +44,7 @@ run_laravel:
 		--env DB_DATABASE=$(MYSQL_DATABASE) \
 		--network $(PROJECT_NETWORK) \
 		--volume ${PWD}/$(PROJECT_VOLUME_APP):/app \
-		bitnami/laravel:latest
-
+		bitnami/laravel:10.3.3-debian-12-r15
 
 stop_mysql:
 	docker stop $(PROJECT_NAME)_mysql
@@ -104,3 +103,6 @@ in_mysql_check_db:
 in_mysql_select_users:
 	docker exec -i ${PROJECT_NAME}_mysql mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} < ./preps/get_users.sql
 
+
+chmod_all:
+	sudo chmod -R 777 ./app
